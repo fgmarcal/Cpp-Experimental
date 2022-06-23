@@ -68,7 +68,7 @@ void valor_futuro()
 
     // Capital inicial
     cout << "\t CALCULO DO VALOR FUTURO\n\n";
-    cout << "\tInsira o valor do capital inicial em R$ sem pontos nem virgula";
+    cout << "\tInsira o valor do capital inicial em R$: ";
     cout << "\n" << endl;
     std::cin >> starting_capital_FV;
 
@@ -178,7 +178,7 @@ void valor_presente()
 
     // Capital inicial
     cout << "\t CALCULO DO VALOR PRESENTE\n\n";
-    cout << "\tInsira o valor do capital em R$ sem inserir virgula ou ponto";
+    cout << "\tInsira o valor do capital em R$ ";
     cout << "\n" << endl;
     std::cin >> capital;
 
@@ -193,12 +193,12 @@ void valor_presente()
     switch (option_taxa)
     {
     case 1:
-        cout << "\n\tInsira a taxa mensal utilizando ponto (0.00): " << endl;
+        cout << "\n\tInsira a taxa mensal: " << endl;
         std::cin >> interest_PV;
         break;
     
     case 2:
-        cout << "\n\tInsira a taxa anual utilizando ponto (0.00): " << endl;
+        cout << "\n\tInsira a taxa anual: " << endl;
         std::cin >> interest_PV;
         break;
     
@@ -420,13 +420,13 @@ void parcelado_price()
     float parcela_price {0};
     
     cout << "\tCALCULO DA PARCELA DO FINANCIAMENTO - METODO PRICE\n";
-    cout << "\nInsira a taxa ao mes utilizando ponto (0.00): " << endl;
+    cout << "\nInsira a taxa ao mes: " << endl;
     std::cin >> taxa;
 
     cout << "Insira o prazo em meses: " << endl;
     cin >> prazo;
 
-    cout << "Insira o valor inicial do financiamento sem pontos nem virgula: " << endl;
+    cout << "Insira o valor inicial do financiamento: " << endl;
     std::cin >> valor_financiamento;
 
     float fator_taxa = (factor_converter + taxa / Percent);  
@@ -507,7 +507,7 @@ void taxaAnoparaMes() // conversor de taxa ao ao para taxa ao mes.
     double taxa_convertida = 0;
     
     cout << "\tConversor de taxa ao ano para taxa ao mes.\n";
-    cout << "Insira a taxa ao ano (0,00): \n";
+    cout << "Insira a taxa ao ano: \n";
     std::cin >> taxa_ano;
 
     double fator_taxa = (factor_converter + taxa_ano / Percent);
@@ -524,12 +524,12 @@ void taxaAnoparaMes() // conversor de taxa ao ao para taxa ao mes.
 void taxaaoPeriodo() // conversor de taxa ao mes para taxa no periodo selecionado.
 {
     double taxa_periodo {0.0};
-    double taxa_convertida = 0;
-    double prazo = 0.0;
+    double taxa_convertida {0.0};
+    double prazo {0.0};
     
 
     cout << "\tConversor de taxa ao mes no periodo em meses.\n";
-    cout << "Insira a taxa ao mes a ser convertida (0,00): \n";
+    cout << "Insira a taxa ao mes a ser convertida: \n";
     std::cin >> taxa_periodo;
 
     cout << "Insira o prazo em meses: \n";
