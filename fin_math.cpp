@@ -1,31 +1,14 @@
-#include <iostream>
-#include <cmath>
-#include <clocale>
-#include <iomanip>
-
-#include <stdlib.h>
-
-#include "conversor_de_taxas.hpp"
-
-
+#include "formulas_financeiras.hpp"
 
 using namespace std;
 
 
-
-void valor_futuro();
-void valor_presente();
-void converter_taxa_de_juros();
-void parcelado_price();
-void parcelado_sac();
-void parcelados_select();
 
 
 void limpa_tela_()
 {
     system("CLS");
 }
-
 
 void menu_inicial()
 {
@@ -50,19 +33,19 @@ void menu_inicial()
         switch (opcao)
         {
             case 1:
-                limpa_tela_();
+                
                 valor_futuro();
                 break;
             case 2:
-                limpa_tela_();
+                
                 valor_presente();
                 break;
             case 3:
-                limpa_tela_();
+                
                 converter_taxa_de_juros();
                 break;
             case 4:
-                limpa_tela_();
+                
                 parcelados_select();
                 break;
             
@@ -74,12 +57,12 @@ void valor_futuro()
 {
     limpa_tela_();
 
-    int prazo = 0;
-    int contador = 0;
+    int prazo {0};
+    int contador {0};
 
-    float juros = 0;
-    double capital = 0;
-    double future_value = 0;
+    double future_value {0.0};
+    double interest_rate_FV {0.0};
+    double starting_capital_FV {0.0};
 
     int option_taxa;
 
@@ -87,7 +70,7 @@ void valor_futuro()
     cout << "\t CALCULO DO VALOR FUTURO\n\n";
     cout << "\tInsira o valor do capital inicial em R$ sem pontos nem virgula";
     cout << "\n" << endl;
-    cin >> capital;
+    std::cin >> starting_capital_FV;
 
     // Seletor de taxa de juros, deve ser ao mes ou ao ano
     
@@ -100,22 +83,18 @@ void valor_futuro()
     switch (option_taxa)
     {
     case 1:
-        cout << "\n\tInsira a taxa mensal utilizando ponto (0.00): " << endl;
-        cin >> juros;
+        cout << "\n\tInsira a taxa mensal: " << endl;
+        std::cin >> interest_rate_FV;
         break;
     
     case 2:
-        cout << "\n\tInsira a taxa anual utilizando ponto (0.00): " << endl;
-        cin >> juros;
-
-
+        cout << "\n\tInsira a taxa anual: " << endl;
+        std::cin >> interest_rate_FV;
         break;
     
     default:
         break;
     }
-
-
 
     
     if(option_taxa == 1)
@@ -128,33 +107,33 @@ void valor_futuro()
         cout << "\tInsira o prazo em anos: " << endl;
         cin >> prazo;
 
-        prazo = prazo * 12;
+        prazo = prazo * MESES_ano;
     }
     
-
-
-    future_value = capital;
+    
+    future_value = starting_capital_FV;
+    double fator_taxa = ( factor_converter + interest_rate_FV /Percent);
     if (option_taxa == 1)
     {
         for (contador = 0; prazo != contador; contador++)
         {
-            future_value = future_value * (1 + juros/100);
+            future_value = future_value * (fator_taxa);
         }
     }
     else
     {
-        for (contador = 0; prazo/12 != contador; contador++)
+        for (contador = 0; (prazo * ANO_Meses) != contador; contador++)
         {
-            future_value = future_value * (1 + juros/100);
+            future_value = future_value * (fator_taxa);
         }
 
     }
     
     limpa_tela_();
     cout << "\tResultado\n";
-    cout << "Valor Inicial: " << "R$ " << capital << endl;
+    cout << "Valor Inicial: " << "R$ " << starting_capital_FV << endl;
     cout << "Valor corrigido (valor futuro): " << "R$ " << future_value <<" apos " << prazo << " meses" << endl;
-    cout << "Valor dos juros totais: R$ " << future_value - capital << endl;
+    cout << "Valor dos juros totais: R$ " << future_value - starting_capital_FV << endl;
     cout << "\n";
     cout << "\nSelecione o que deseja fazer: ";
     cout << "\n1 - Novo Calculo";
@@ -188,12 +167,12 @@ void valor_presente()
 {
     limpa_tela_();
 
-    int prazo = 0;
-    int contador = 0;
+    int prazo {0};
+    int contador {0};
 
-    float juros = 0;
-    double capital = 0;
-    double present_value = 0;
+    double interest_PV {0.0};
+    double capital {0.0};
+    double present_value {0.0};
 
     int option_taxa;
 
@@ -201,7 +180,7 @@ void valor_presente()
     cout << "\t CALCULO DO VALOR PRESENTE\n\n";
     cout << "\tInsira o valor do capital em R$ sem inserir virgula ou ponto";
     cout << "\n" << endl;
-    cin >> capital;
+    std::cin >> capital;
 
     // Seletor de taxa de juros, deve ser ao mes ou ao ano
     
@@ -215,14 +194,12 @@ void valor_presente()
     {
     case 1:
         cout << "\n\tInsira a taxa mensal utilizando ponto (0.00): " << endl;
-        cin >> juros;
+        std::cin >> interest_PV;
         break;
     
     case 2:
         cout << "\n\tInsira a taxa anual utilizando ponto (0.00): " << endl;
-        cin >> juros;
-
-
+        std::cin >> interest_PV;
         break;
     
     default:
@@ -242,24 +219,25 @@ void valor_presente()
         cout << "\tInsira o prazo em anos: " << endl;
         cin >> prazo;
 
-        prazo = prazo * 12;
+        prazo = prazo * MESES_ano;
     }
     
 
 
     present_value = capital;
+    double fator_taxa = (factor_converter + interest_PV / Percent);
     if (option_taxa == 1)
     {
         for (contador = 0; prazo != contador; contador++)
         {
-            present_value = present_value / (1 + juros/100);
+            present_value = present_value / (fator_taxa);
         }
     }
     else
     {
-        for (contador = 0; prazo/12 != contador; contador++)
+        for (contador = 0; prazo * ANO_Meses != contador; contador++)
         {
-            present_value = present_value / (1 + juros/100);
+            present_value = present_value / (fator_taxa);
         }
 
     }
@@ -435,29 +413,27 @@ void parcelado_price()
 {
     limpa_tela_();
 
-    float taxa = 0;
-    float valor_financiamento = 0;
+    float taxa {0};
+    float valor_financiamento {0};
     int prazo {0};
 
     float parcela_price {0};
     
     cout << "\tCALCULO DA PARCELA DO FINANCIAMENTO - METODO PRICE\n";
     cout << "\nInsira a taxa ao mes utilizando ponto (0.00): " << endl;
-    cin >> taxa;
+    std::cin >> taxa;
 
     cout << "Insira o prazo em meses: " << endl;
     cin >> prazo;
 
     cout << "Insira o valor inicial do financiamento sem pontos nem virgula: " << endl;
-    cin >> valor_financiamento;
+    std::cin >> valor_financiamento;
 
-    float fator_taxa = (1 + taxa / 100);  
+    float fator_taxa = (factor_converter + taxa / Percent);  
     double potencia_pmt = pow(fator_taxa, prazo);
-
     
-    parcela_price = valor_financiamento * ((potencia_pmt * taxa / 100) / (potencia_pmt - 1));
+    parcela_price = valor_financiamento * ((potencia_pmt * taxa / Percent) / (potencia_pmt - factor_converter));
     
-
     cout << "Resultado do parcelamento: \n";
     cout <<"R$ " << parcela_price << " pagos mensalmente durante " << prazo << " meses.";
     cout << "\nValor total do financiamento com juros: R$ " << parcela_price * prazo;
@@ -493,71 +469,80 @@ void parcelado_price()
 void parcelado_sac() // Implementar
 {   
     limpa_tela_();
-    // Make sure we use types that hold decimal places
-	double new_balance, ending_balance;
-	double interest_paid, annual_rate, principle_paid, payment;
-	
-	cout << "Please enter the original loan amount $ (-1 to end the program):";
-	cin >> ending_balance;
-	cout << "Enter the interest rate on your loan %:";
-	cin >> annual_rate;
-	cout << endl;
+    cout << "Não implementado";
 
-	// Setup the stream to show dollar amount formatting
-	/*cout.setf(ios::fixed);
-	cout.setf(ios::showpoint);
-	cout.precision(2);*/
-
-	// Setup a counter to count payments
-	int count = 1;
-
-	// Get our standard payment which is 1/20 of loan
-	payment = (ending_balance / 20.0);
-
-	while (ending_balance > 0.0) {
-		new_balance = ending_balance;  
-
-		// Calculate interest by multiplying rate against balance
-		interest_paid = new_balance * (annual_rate / 12.0);
-
-		// Subtract interest from your payment
-		principle_paid = payment - interest_paid;
-
-		// Subtract final payment from running balance
-		ending_balance = new_balance - principle_paid;
-
-		// If the balance remaining plus its interest is less than payment amount
-		// Then print out 0 balance, the interest paid and that balance minus the interest will tell us
-		// how much principle you paid to get to zero.
-
-		if ((new_balance + interest_paid) < payment) 
-        {
-			cout << count << ". Payment: $" << (new_balance + interest_paid) << " Interest: $" << interest_paid << " Principle: $" << (new_balance - interest_paid) << " Loan Balance is: $0.00" << endl;
-		}
-		else {
-			// Lets show the table, loan, interest, and payment made towards principle
-			cout << count << ". Payment: $" << payment << " Interest: $" << interest_paid << " Principle: $" << principle_paid << " Loan Balance is: $" << ending_balance << endl;
-		}
-		count++;
-	}
-
-
-	
-	system("pause");
+    system("pause");
+    
+   
 	
     
 }
 
-
-int main( void )
-
+void taxaMesparaAno() // conversor de taxa ao mes para taxa ao ano.
 {
-    setlocale(LC_ALL, "pt-BR");
+    
+    double interest_rate {0.0};
+    double taxa_convertida {0.0};
 
-    cout.setf(ios::fixed);
-    cout.setf(ios::showpoint);
-    cout.precision(2);
+    cout << "\tConversor de taxa ao mes para taxa ao ano.\n";
+    cout << "Insira a taxa ao mes: \n";
+    
+    std::cin >> interest_rate;
 
-    menu_inicial();
+    double fator_taxa = (factor_converter + (interest_rate / Percent));
+    
+    taxa_convertida = pow(fator_taxa, MESES_ano);
+    taxa_convertida = (taxa_convertida - factor_converter) * Percent;
+
+    cout << "Resultado: \n";
+    cout << taxa_convertida << "%" << " a.a." << endl;
+    cout << "\n";
+    
 
 }
+
+void taxaAnoparaMes() // conversor de taxa ao ao para taxa ao mes.
+{
+    double taxa_ano {0.0};
+    double taxa_convertida = 0;
+    
+    cout << "\tConversor de taxa ao ano para taxa ao mes.\n";
+    cout << "Insira a taxa ao ano (0,00): \n";
+    std::cin >> taxa_ano;
+
+    double fator_taxa = (factor_converter + taxa_ano / Percent);
+
+    taxa_convertida = pow (fator_taxa, ANO_Meses);
+    taxa_convertida = (taxa_convertida - factor_converter) * Percent;
+
+    cout << "Resultado: \n";
+    cout << taxa_convertida << " %" << " a.m." << endl;
+    cout << "\n";
+
+}
+
+void taxaaoPeriodo() // conversor de taxa ao mes para taxa no periodo selecionado.
+{
+    double taxa_periodo {0.0};
+    double taxa_convertida = 0;
+    double prazo = 0.0;
+    
+
+    cout << "\tConversor de taxa ao mes no periodo em meses.\n";
+    cout << "Insira a taxa ao mes a ser convertida (0,00): \n";
+    std::cin >> taxa_periodo;
+
+    cout << "Insira o prazo em meses: \n";
+    cin >> prazo;
+
+    double fator_taxa = (factor_converter + taxa_periodo / Percent);
+
+    taxa_convertida = pow(fator_taxa, prazo);
+    taxa_convertida = (taxa_convertida - factor_converter) * Percent;
+
+    cout << "Resultado: \n";
+    cout << taxa_convertida << " %" << " n.p." << " de " << (int) prazo << " meses." <<endl;
+    cout << "\n";
+
+}
+
