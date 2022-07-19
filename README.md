@@ -19,7 +19,7 @@ This program calculates
 
   7) Payment methods
       Payment methods utilizes PRICE payment method to inform the monthly or annual due payments one must pay if they get a loan - it uses compound interest rates.
-      Future versions will offer the possibility to calculate a loan using Constant Amortization System (SAC - in portuguese)
+      SAC (constant amortization method) added to this version. You only need to choose the interest rate, value and number of payments.
 
 
 
